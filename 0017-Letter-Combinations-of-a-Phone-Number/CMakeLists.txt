@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.19)
+project(0017_Letter_Combinations_of_a_Phone_Number)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(0017_Letter_Combinations_of_a_Phone_Number main.cpp)
