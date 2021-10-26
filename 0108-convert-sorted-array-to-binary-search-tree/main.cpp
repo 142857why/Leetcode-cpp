@@ -40,32 +40,46 @@ TreeNode* createTree(const vector<int>& arr) {
 }
 
 void BFS_print(TreeNode *root ){
-    cout << "[";
+    string res = "[";
     std::queue<TreeNode *> Q;
     Q.push(root);
     while(!Q.empty()){
         TreeNode *node = Q.front();
         Q.pop();
         if (node) {
-            cout << node->val << ", ";
+            res += to_string((node->val));
+            res += ", ";
         } else {
-            cout << "null, ";
+            res += "#";
         }
 
         if(node && node->left){
             Q.push(node->left);
-        } else if (node && node->right){
+        } else if (node){
 //            cout << "current node " << node->val << " has a empty child, push!\n";
             Q.push(nullptr);
         }
         if(node && node->right){
             Q.push(node->right);
-        } else if (node && node->left){
+        } else if (node){
             // cout << "current node " << node->val << " has a empty child, push!\n";
             Q.push(nullptr);
         }
     }
-    cout << "\b\b]\n";
+    for (unsigned i = res.length() - 1; i >= 0; i--) {
+        if (res[i] != '#') {
+            res = res.substr(0, i);
+            break;
+        }
+    }
+    for (auto x : res) {
+        if (x == '#') {
+            cout << "null, ";
+        } else {
+            cout << x;
+        }
+    }
+    cout << "\b]\n";
 }
 
 TreeNode* helper(const vector<int>&, int, int);
@@ -86,8 +100,8 @@ TreeNode* helper(const vector<int>& nums, int left, int right) {
 
 int main() {
     vector<int> nums{-10, -3, 1, 5, 9};
-    TreeNode* root = createTree(nums);
-//    TreeNode* root = sortedArrayToBST(nums);
+//    TreeNode* root = createTree(nums);
+    TreeNode* root = sortedArrayToBST(nums);
 
     BFS_print(root);
 //    printf("%d\n", root->left->left->left->val);
