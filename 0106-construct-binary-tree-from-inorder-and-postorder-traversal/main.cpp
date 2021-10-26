@@ -2,6 +2,8 @@
 #include <vector>
 #include <deque>
 #include <queue>
+#include <unordered_map>
+
 using namespace std;
 struct TreeNode {
     int val;
@@ -58,7 +60,22 @@ void BFS_print(TreeNode *root ){
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        return nullptr;
+        unordered_map<int, int> hash;
+        for (int i = 0; i < inorder.size(); ++i) {
+            hash[inorder[i]] = i;
+        }
+
+        return helper(hash, postorder, 0, postorder.size() - 1, postorder.size() - 1);
+    }
+
+    TreeNode* helper(const unordered_map<int, int>& hash, const vector<int>& postorder, int s0, int e0, int s1) {
+        if (s0 > e0) return nullptr;
+
+        int mid = postorder[s1], index = hash.at(mid), rightLen = e0 - index + 1;
+        TreeNode* node = new TreeNode(mid);
+        node->left = helper(hash, postorder, s0, index - 1, s1 - rightLen);
+        node->right = helper(hash, postorder, index + 1, e0, s1 - 1);
+        return node;
     }
 };
 
