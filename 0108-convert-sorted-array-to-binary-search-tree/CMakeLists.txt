@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(0108_convert_sorted_array_to_binary_search_tree)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(0108_convert_sorted_array_to_binary_search_tree main.cpp)
