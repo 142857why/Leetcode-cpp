@@ -4,28 +4,32 @@
 
 using namespace std;
 class Solution {
-private:
-    vector<string> ans;
+
 public:
     vector<string> generateParenthesis(int n) {
+        vector<string> ans;
         if (n <= 0) {
             return ans;
         }
-        helper("", n, n);
+        helper("", n, n, ans);
         return ans;
     }
 
-    void helper(string s, int l, int r) {
+    void helper(string s, int l, int r, vector<string>& ans) {
+//        cout << "l = " << l << ", r = " << r << endl;
         if (l == 0 && r == 0) {
-            ans.emplace_back(s);
+//            cout << "s=" << s << endl;
+            ans.push_back(s);
+            return;
         }
+
         if (l == r) {
-            helper(s + "(", l-1, r);
+            helper(s + "(", l-1, r, ans);
         } else if (l < r) {
             if (l > 0) {
-                helper(s + "(", l-1, r);
+                helper(s + "(", l-1, r, ans);
             }
-            helper(s+")", l, r-1);
+            helper(s + ")", l, r-1, ans);
         }
     }
 };
