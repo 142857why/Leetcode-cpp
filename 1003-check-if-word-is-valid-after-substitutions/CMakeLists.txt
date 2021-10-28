@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(1003_check_if_word_is_valid_after_substitutions)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(1003_check_if_word_is_valid_after_substitutions main.cpp)
