@@ -5,29 +5,72 @@ using namespace std;
 class Solution {
 public:
     vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
-        vector<int> ans(queries.size(), 0);
-        int n = items.size();
-        for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
-                if (items[i][0] >= items[j][0]) {
-                    items[i][1]  = std::max(items[i][1], items[j][1]);
-                    std::swap(items[i][0], items[j][0]);
+        unsigned int q_size = queries.size();
+        vector<int> ans(q_size, 0);
+        unsigned int n = items.size();
+        sort(items.begin(), items.end(), [&](auto& a, auto& b)->bool {
+           if (a[0] == b[0]) {
+               return a[1] > b[1];
+           }
+            return a[0] < b[0];
+        });
+//        print2DVector(items);
+        vector<int> f(n, 0);
+        f[0] = items[0][1];
+        for (unsigned i = 1; i < n; ++i) {
+            f[i] = std::max(f[i-1], items[i][1]);
+        }
+//        print1DVector(f);
+        for (unsigned int i = 0; i < q_size; ++i) {
+            int l = 0, r = n, p = queries[i];
+            while (l < r) {
+                unsigned m = l + (r - l) / 2;
+                if (items[m][0] < p) {
+                    l = m + 1;
+                } else {
+                    r = m;
                 }
             }
+            if (l == n || items[l][0] > p) {
+                --l;
+            }
+            ans[i] = l >= 0 ? f[l] : 0;
         }
-        printVector(items);
+
         return ans;
     }
-    void printVector(const vector<vector<int>>& v) {
+
+    static void print2DVector(const vector<vector<int>>& v) {
         for (int i = 0; i < v.size(); ++i) {
             cout << "[" << v[i][0] << ", " << v[i][1] << "]  ";
         }
         cout << endl;
     }
+
+    static void print1DVector(const vector<int>& v) {
+        for (int i = 0; i < v.size(); ++i) {
+            cout << v[i] << " ";
+        }
+        cout << endl;
+    }
 };
 
+void printAns(const vector<int>& v) {
+    cout << "[";
+    for (auto x : v) {
+        cout << x << ", ";
+    }
+    cout << "\b\b]\n";
+}
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    vector<vector<int>> items{{1, 2}, {3, 2}, {2, 4}, {5, 6}, {3, 5}};
+    vector<int> queries{1, 2, 3, 4, 5, 6};
+
+    auto* obj = new Solution();
+    vector<int> ans = obj->maximumBeauty(items, queries);
+    printAns(ans);
+    delete obj;
     return 0;
 }
 
