@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(0235_lowest_common_ancestor_of_a_binary_search_tree)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(0235_lowest_common_ancestor_of_a_binary_search_tree main.cpp)
