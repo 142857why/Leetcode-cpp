@@ -122,13 +122,31 @@ void BFS_print(TreeNode *root){
 class Solution {
 public:
     bool isEvenOddTree(TreeNode* root) {
-        
+        queue<TreeNode*> que;
+        if (root) que.push(root);
+        int level = 0;
+        while (!que.empty()) {
+            int size = que.size();
+            int prev = level % 2 == 0 ? INT_MIN : INT_MAX;
+            for (int i = 0; i < size; ++i) {
+                TreeNode* node = que.front(); que.pop();
+                int value = node->val;
+                if ((level & 1) == (value & 1)) return false;
+                if (((level & 1) && (value >= prev)) || (!(level & 1) && (value <= prev))) return false;
+
+                prev = value;
+                if (node->left) que.push(node->left);
+                if (node->right) que.push(node->right);
+            }
+            level++;
+        }
+        return true;
     }
 };
 
 
 int main() {
-    string treeString = "[1,10,4,3,null,7,9,12,8,6,null,null,2]";
+    string treeString = "[5,9,1,3,5,7]";
     TreeNode* root = stringToTreeNode(treeString);
     auto* obj = new Solution();
     bool f = obj->isEvenOddTree(root);
